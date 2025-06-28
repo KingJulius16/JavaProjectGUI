@@ -235,6 +235,28 @@ private void loadNotesToTable() {
 
     private void btncreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncreateActionPerformed
         // TODO add your handling code here:
+        title = txttitle.getText().trim();
+        content = txtcontent.getText().trim();
+
+        if (title.isEmpty() || content.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Title and content cannot be empty.");
+            return;
+        }
+
+        int userId = Session.getCurrentUserId();  
+        NoteEntity note = new NoteEntity(userId, title, content);
+        NoteController controller = new NoteController();
+
+        try {
+            controller.addNote(note);
+            JOptionPane.showMessageDialog(this, "Note added successfully.");
+            loadNotesToTable(); 
+            txttitle.setText("");
+            txtcontent.setText("");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error adding note: " + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btncreateActionPerformed
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
