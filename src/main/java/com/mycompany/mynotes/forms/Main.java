@@ -309,6 +309,32 @@ private void loadNotesToTable() {
 
     private void btndeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndeleteActionPerformed
         // TODO add your handling code here:
+    int selectedRow = notesTable.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a note to delete.");
+        return;
+    }
+
+    int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this note?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    int noteId = Integer.parseInt(notesTable.getValueAt(selectedRow, 0).toString());
+
+    NoteController controller = new NoteController();
+    try {
+        controller.deleteNote(noteId);
+        JOptionPane.showMessageDialog(this, "Note deleted successfully!");
+        loadNotesToTable();
+        txttitle.setText("");
+        txtcontent.setText("");
+        notesTable.clearSelection();
+        btncreate.setEnabled(true);
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error deleting note: " + e.getMessage());
+        e.printStackTrace();
+    }
 
     }//GEN-LAST:event_btndeleteActionPerformed
 
