@@ -230,6 +230,19 @@ private void loadNotesToTable() {
 
     private void btnreadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnreadActionPerformed
         // TODO add your handling code here:
+    int selectedRow = notesTable.getSelectedRow();
+
+    if (selectedRow < 0) {
+        JOptionPane.showMessageDialog(this, "Please select a note first.");
+        return;
+    }
+
+    title = notesTable.getValueAt(selectedRow, 1).toString();
+    content = notesTable.getValueAt(selectedRow, 2).toString();
+
+    txttitle.setText(title);
+    txtcontent.setText(content);
+    btncreate.setEnabled(false);
 
     }//GEN-LAST:event_btnreadActionPerformed
 
