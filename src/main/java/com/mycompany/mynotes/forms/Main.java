@@ -261,6 +261,38 @@ private void loadNotesToTable() {
 
     private void btnupdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnupdateActionPerformed
         // TODO add your handling code here:
+    int selectedRow = notesTable.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a note to update.");
+        return;
+    }
+
+    int noteId = Integer.parseInt(notesTable.getValueAt(selectedRow, 0).toString());
+
+    String newTitle = txttitle.getText().trim();
+    String newContent = txtcontent.getText().trim();
+
+    if (newTitle.isEmpty() || newContent.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Title and Content cannot be empty.");
+        return;
+    }
+
+    NoteController controller = new NoteController();
+    try {
+        controller.updateNote(noteId, newTitle, newContent);
+        JOptionPane.showMessageDialog(this, "Note updated successfully!");
+
+        loadNotesToTable(); 
+        txttitle.setText(""); 
+        txtcontent.setText("");
+        notesTable.clearSelection();
+        btncreate.setEnabled(true);
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error updating note: " + e.getMessage());
+        e.printStackTrace();
+    }
+        
 
     }//GEN-LAST:event_btnupdateActionPerformed
 
